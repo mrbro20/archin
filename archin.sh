@@ -13,7 +13,8 @@ cfdisk /dev/$drive
 read -p "Did You Partitioned For Installation? [y/n]" ask
 if [[ $ask = n ]] ; then
   cfdisk /dev/$drive
-fi 
+elif [[ $ask = y ]] ; then
+  fi 
 echo "linux partition: /dev/"
 read partition
 mkfs.ext4 /dev/$partition 
