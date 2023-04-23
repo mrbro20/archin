@@ -134,6 +134,15 @@ cd /home/$username/
 echo "PROMPT='%2~ »%b '" > .zshrc
 chown $username:$username .zshrc
 
+echo "[chaotic-aur]" >> /etc/pacman.conf
+echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+echo "  " >> /etc/pacman.conf
+
+#Multilib
+echo "[multilib]" > /etc/pacman.conf
+echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
+
+
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
 chown $username:$username $ai3_path
