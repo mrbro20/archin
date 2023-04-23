@@ -89,26 +89,6 @@ chmod +x install.sh
 cd ..
 rm -rf Top-5-Bootloader-Themes
 
-#Blackarch mirror Installation
-curl -O https://blackarch.org/strap.sh
-echo 5ea40d49ecd14c2e024deecf90605426db97ea0c strap.sh | sha1sum -c
-chmod +x strap.sh
-./strap.sh
-rm -rf strap.sh
-
-#Chaotic-Aur
-pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key FBA220DFC880C036
-pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-#echo "[chaotic-aur]" >> /etc/pacman.conf
-#echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-#echo "  " >> /etc/pacman.conf
-
-#Multilib
-#echo "[multilib]" > /etc/pacman.conf
-#echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
-
-pacman -Suy --noconfirm
 
 pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
@@ -118,7 +98,7 @@ pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse \
      emacs-nox arc-gtk-theme rsync firefox dash ncmpcpp cowsay \
      xcompmgr libnotify dunst slock jq aria2 dhcpcd connman \
-     wpa_supplicant zsh-syntax-highlighting yay \
+     wpa_supplicant zsh-syntax-highlighting \
 
 systemctl enable connman.service 
 rm /bin/sh
@@ -134,6 +114,17 @@ cd /home/$username/
 echo "PROMPT='%2~ »%b '" > .zshrc
 chown $username:$username .zshrc
 
+#Blackarch mirror Installation
+curl -O https://blackarch.org/strap.sh
+echo 5ea40d49ecd14c2e024deecf90605426db97ea0c strap.sh | sha1sum -c
+chmod +x strap.sh
+./strap.sh
+rm -rf strap.sh
+
+#Chaotic-Aur
+pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key FBA220DFC880C036
+pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 echo "  " >> /etc/pacman.conf
@@ -142,6 +133,7 @@ echo "  " >> /etc/pacman.conf
 echo "[multilib]" > /etc/pacman.conf
 echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
 
+pacman -Syyu --noconfirm
 
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
