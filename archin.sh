@@ -13,8 +13,8 @@ cfdisk /dev/$drive
 read -p "Did You Partitioned For Installation? [y/n]" ask
 if [[ $ask = n ]] ; then
   cfdisk /dev/$drive
-elif [[ $ask = y ]] ; then
-  fi 
+fi
+
 echo "linux partition: /dev/"
 read partition
 mkfs.ext4 /dev/$partition 
@@ -82,7 +82,7 @@ sudo sed -i "s/^#GRUB_DISABLE_OS_PROBER=false$/GRUB_DISABLE_OS_PROBER=false/" /e
 grub-mkconfig -o /boot/grub/grub.cfg
 
 #Customize git
-git clone --depth https://github.com/ChrisTitusTech/Top-5-Bootloader-Themes
+git clone --depth=1 https://github.com/ChrisTitusTech/Top-5-Bootloader-Themes
 cd Top-5-Bootloader-Themes
 chmod +x install.sh
 ./install.sh
@@ -108,7 +108,7 @@ echo "  " > /etc/pacman.conf
 echo "[multilib]" > /etc/pacman.conf
 echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
 
-pacman -Syu --noconfirm 
+pacman -Syu
 
 pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
