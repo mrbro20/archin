@@ -10,7 +10,7 @@ lsblk
 echo "Choose drive for Partitioning: /dev/"
 read drive
 cfdisk /dev/$drive
-read -p "Did Made Partitions For Installation? [y/n]" ask
+read -p "Did You Partitioned For Installation? [y/n]" ask
 if [[ $ask = n ]] ; then
   cfdisk /dev/$drive
 fi 
