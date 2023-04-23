@@ -94,6 +94,7 @@ curl -O https://blackarch.org/strap.sh
 echo 5ea40d49ecd14c2e024deecf90605426db97ea0c strap.sh | sha1sum -c
 chmod +x strap.sh
 ./strap.sh
+rm -rf strap.sh
 
 #Chaotic-Aur
 pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
@@ -102,6 +103,7 @@ pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
 echo "[chaotic-aur]" > /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" > /etc/pacman.conf
 echo "  " > /etc/pacman.conf
+
 #Multilib
 echo "[multilib]" > /etc/pacman.conf
 echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
