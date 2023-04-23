@@ -144,8 +144,8 @@ exit
 #part3
 printf '\033c'
 cd $HOME
+echo "Done Bro√"
 
 
-ln -s ~/.config/shell/profile .zprofile
-rm ~/.zshrc ~/.zsh_history
+
 exit
