@@ -47,7 +47,7 @@ exit
 
 #part2
 printf '\033c'
-pacman -S --noconfirm sed
+pacman -S --noconfirm sed git
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
@@ -108,7 +108,7 @@ echo "  " > /etc/pacman.conf
 echo "[multilib]" > /etc/pacman.conf
 echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
 
-pacman -Syu
+pacman -Suy --noconfirm
 
 pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
