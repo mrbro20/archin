@@ -5,7 +5,7 @@ sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
-lsblk
+lsblk -S
 read -p "Choose disk for Partitioning: /dev/" disk
 cfdisk /dev/$disk
 read -p "Did You Partitioned For Installation? [y/n] " ask
@@ -16,14 +16,14 @@ read -p "Enter linux partition: /dev/" partition
 mkfs.ext4 /dev/$partition 
 read -p "Did you also create efi partition? [y/n]" answer
 if [[ $answer = y ]] ; then
-  lsblk
+  lsblk -f
   read -p "EFI partition: /dev/" efipartition
   mkfs.vfat -F 32 /dev/$efipartition
 fi
 mount /dev/$partition /mnt
 read -p "Do you have cache partition? [y/n]" answer
 if [[ $answer = y ]] ; then
-  lsblk
+  lsblk -f
   read -p "Enter cache partition: /dev/" cachepartition
   mkdir /cache
   mount /dev/$cachepartition /cache
@@ -58,7 +58,7 @@ mkinitcpio -P
 echo "Set Sudo Passwd: "
 passwd
 pacman --noconfirm -S grub efibootmgr os-prober
-lsblk
+lsblk -f
 read -p "Enter EFI partition: /dev/" efipartition
 mkdir /boot/efi
 mount /dev/$efipartition /boot/efi 
