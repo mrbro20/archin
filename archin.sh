@@ -81,16 +81,6 @@ chmod +x install.sh
 cd ..
 rm -rf Top-5-Bootloader-Themes
 
-pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
-     ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
-     sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer \
-     fzf man-db unclutter xclip maim libconfig xdg-user-dirs \
-     zip unzip unrar p7zip xdotool papirus-icon-theme mpd base-devel \
-     dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse \
-     emacs-nox arc-gtk-theme rsync firefox dash ncmpcpp cowsay \
-     xcompmgr libnotify dunst slock jq aria2 dhcpcd connman \
-     wpa_supplicant zsh-syntax-highlighting \
-
 #Blackarch mirror Installation
 curl -O https://blackarch.org/strap.sh
 echo 5ea40d49ecd14c2e024deecf90605426db97ea0c strap.sh | sha1sum -c
@@ -111,6 +101,16 @@ echo "[multilib]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 
 pacman -Syyu --noconfirm
+
+pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
+     ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
+     sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer \
+     fzf man-db unclutter xclip maim libconfig xdg-user-dirs \
+     zip unzip unrar p7zip xdotool papirus-icon-theme mpd base-devel \
+     dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse \
+     emacs-nox arc-gtk-theme rsync firefox dash ncmpcpp cowsay \
+     xcompmgr libnotify dunst slock jq aria2 dhcpcd connman \
+     wpa_supplicant zsh-syntax-highlighting yay \
 
 systemctl enable connman.service 
 rm /bin/sh
