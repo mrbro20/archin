@@ -1,43 +1,37 @@
 # == MY ARCH SETUP INSTALLER == #
 #part1
 printf '\033c'
-echo "Welcome to Mrbro's arch installer script"
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
 lsblk
-echo "Choose drive for Partitioning: /dev/"
-read drive
-cfdisk /dev/$drive
-read -p "Did You Partitioned For Installation? [y/n]" ask
+read -p "Choose disk for Partitioning: /dev/" disk
+cfdisk /dev/$disk
+read -p "Did You Partitioned For Installation? [y/n] " ask
 if [[ $ask = n ]] ; then
   cfdisk /dev/$drive
 fi
-
-echo "linux partition: /dev/"
-read partition
+read -p "Enter linux partition: /dev/" partition
 mkfs.ext4 /dev/$partition 
 read -p "Did you also create efi partition? [y/n]" answer
 if [[ $answer = y ]] ; then
   lsblk
-  echo "EFI partition: /dev/"
-  read efipartition
+  read -p "EFI partition: /dev/" efipartition
   mkfs.vfat -F 32 /dev/$efipartition
 fi
 mount /dev/$partition /mnt
 read -p "Do you have cache partition? [y/n]" answer
 if [[ $answer = y ]] ; then
   lsblk
-  echo "Enter cache partition: /dev/"
-  read cachepartition
+  read -p "Enter cache partition: /dev/" cachepartition
   mkdir /cache
   mount /dev/$cachepartition /cache
-  pacstrap -c /mnt --cachedir=/cache/pkg base base-devel linux-lts linux-firmware
+  pacstrap -c /mnt --cachedir=/cache/pkg base base-devel linux-lts linux-firmware archlinux-keyring
   umount -l /cache
   mount /dev/$cachepartition /mnt/var/cache/pacman/ 
 else
-  pacstrap /mnt base base-devel linux-lts linux-firmware
+  pacstrap /mnt base base-devel linux-lts linux-firmware archlinux-keyring
 fi
 genfstab -U /mnt >> /mnt/etc/fstab 
 sed '1,/^#part2$/d' `basename $0` > /mnt/arch_install2.sh 
@@ -55,26 +49,24 @@ echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=us" > /etc/vconsole.conf
-echo "Enter New Hostname: "
-read hostname
+read -p "Enter Hostname: " hostname
 echo $hostname > /etc/hostname
 echo "127.0.0.1       localhost" >> /etc/hosts
 echo "::1             localhost" >> /etc/hosts
 echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 mkinitcpio -P
-echo "Set Root Passwd: "
+echo "Set Sudo Passwd: "
 passwd
 pacman --noconfirm -S grub efibootmgr os-prober
 lsblk
-echo "Enter EFI partition: /dev/" 
-read efipartition
+read -p "Enter EFI partition: /dev/" efipartition
 mkdir /boot/efi
 mount /dev/$efipartition /boot/efi 
-read -p "Do you Want to Install GRUB on UEFI? [y/n]" instagrub
-if [[ $instagrub = y ]] ; then
+read -p "Install GRUB [1]UEFI or [2]Lagacy? [1/2] " instagrub
+if [[ $instagrub = 1 ]] ; then
   echo "Installing Grub For UEFI Bios"
   grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=$hostname --recheck
-else
+elif [[ $instagrub = 2 ]] ; then
   echo "Installing Grub For Lagacy Bios"
   grub-install /dev/$efipartition
 fi
@@ -89,7 +81,6 @@ chmod +x install.sh
 cd ..
 rm -rf Top-5-Bootloader-Themes
 
-
 pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
      sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer \
@@ -99,20 +90,6 @@ pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      emacs-nox arc-gtk-theme rsync firefox dash ncmpcpp cowsay \
      xcompmgr libnotify dunst slock jq aria2 dhcpcd connman \
      wpa_supplicant zsh-syntax-highlighting \
-
-systemctl enable connman.service 
-rm /bin/sh
-ln -s dash /bin/sh
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-echo "Enter New Username: "
-read username
-useradd -m -G wheel -s /bin/zsh $username
-echo "Set Passwd for user"
-passwd $username
-echo "Pre-Installation Finished"
-cd /home/$username/
-echo "PROMPT='%2~ »%b '" > .zshrc
-chown $username:$username .zshrc
 
 #Blackarch mirror Installation
 curl -O https://blackarch.org/strap.sh
@@ -127,13 +104,25 @@ pacman-key --lsign-key FBA220DFC880C036
 pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-echo "  " >> /etc/pacman.conf
+echo " " >> /etc/pacman.conf
 
 #Multilib
-echo "[multilib]" > /etc/pacman.conf
-echo "Include = /etc/pacman.d/mirrorlist" > /etc/pacman.conf
+echo "[multilib]" >> /etc/pacman.conf
+echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 
 pacman -Syyu --noconfirm
+
+systemctl enable connman.service 
+rm /bin/sh
+ln -s dash /bin/sh
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+read -p "Enter Username: " username
+useradd -m -G wheel -s /bin/zsh $username
+echo "Set Passwd for user"
+passwd $username
+cd /home/$username/
+echo "PROMPT='%2~ »%b '" >> .zshrc
+chown $username:$username .zshrc
 
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
