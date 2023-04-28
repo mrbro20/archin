@@ -5,13 +5,30 @@ sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
-lsblk -S
-read -p "Choose disk for Partitioning: /dev/" disk
+clear
+echo -e "\e[32m###############################\e[0m"
+echo -e "\e[32m# SELECT DISK FOR PARTITONING #\e[0m"
+echo -e "\e[32m###############################\e[0m"
+echo " "
+lsblk -f
+read -p "Enter disk for Partitioning: /dev/" disk
 cfdisk /dev/$disk
-read -p "Did You Partitioned For Installation? [y/n] " ask
+clear
+echo -e "\e[31m##############################\e[0m"
+echo -e "\e[31m# \e[33mCHECK PARTITIONS CAREFULLY \e[31m#\e[0m"
+echo -e "\e[31m##############################\e[0m"
+echo " "
+lsblk -f
+read -p "Partitioning Completed? [y/n] " ask
 if [[ $ask = n ]] ; then
-  cfdisk /dev/$drive
+  cfdisk /dev/$disk
 fi
+clear
+echo -e "\e[32m#######################\e[0m"
+echo -e "\e[32m# MOUNTING PARTITIONS #\e[0m"
+echo -e "\e[32m#######################\e[0m"
+echo " "
+lsblk -f
 read -p "Enter linux partition: /dev/" partition
 mkfs.ext4 /dev/$partition 
 read -p "Did you also create efi partition? [y/n]" answer
@@ -21,6 +38,11 @@ if [[ $answer = y ]] ; then
   mkfs.vfat -F 32 /dev/$efipartition
 fi
 mount /dev/$partition /mnt
+clear
+echo -e "\e[32m#######################\e[0m"
+echo -e "\e[32m# INSTALLING PACKAGES #\e[0m"
+echo -e "\e[32m#######################\e[0m"
+echo " "
 read -p "Do you have cache partition? [y/n]" answer
 if [[ $answer = y ]] ; then
   lsblk -f
@@ -42,6 +64,11 @@ exit
 #part2
 printf '\033c'
 pacman -S --noconfirm sed git
+clear
+echo -e "\e[32m#####################\e[0m"
+echo -e "\e[32m# SETTING UP SYSTEM #\e[0m"
+echo -e "\e[32m######################\e[0m"
+echo " "
 sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
@@ -49,25 +76,28 @@ echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=us" > /etc/vconsole.conf
+echo " "
+echo -e "\e[32m# SYSTEM NAME #\e[0m"
 read -p "Enter Hostname: " hostname
 echo $hostname > /etc/hostname
 echo "127.0.0.1       localhost" >> /etc/hosts
 echo "::1             localhost" >> /etc/hosts
 echo "127.0.1.1       $hostname.localdomain $hostname" >> /etc/hosts
 mkinitcpio -P
-echo "Set Sudo Passwd: "
+echo -e "\e[32m# SUDO PASSWD #\e[0m"
 passwd
 pacman --noconfirm -S grub efibootmgr os-prober
+clear
 lsblk -f
 read -p "Enter EFI partition: /dev/" efipartition
 mkdir /boot/efi
 mount /dev/$efipartition /boot/efi 
-read -p "Install GRUB [1]UEFI or [2]Lagacy? [1/2] " instagrub
+read -p "Install GRUB 1-UEFI or 2-Lagacy? [1/2] " instagrub
 if [[ $instagrub = 1 ]] ; then
-  echo "Installing Grub For UEFI Bios"
+  echo -e "\e[32mInstalling Grub For UEFI Bios\e[0m"
   grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=$hostname --recheck
 elif [[ $instagrub = 2 ]] ; then
-  echo "Installing Grub For Lagacy Bios"
+  echo "\e[32mInstalling Grub For Lagacy Bios\e[0m"
   grub-install /dev/$efipartition
 fi
 sudo sed -i "s/^#GRUB_DISABLE_OS_PROBER=false$/GRUB_DISABLE_OS_PROBER=false/" /etc/default/grub
@@ -80,6 +110,13 @@ chmod +x install.sh
 ./install.sh
 cd ..
 rm -rf Top-5-Bootloader-Themes
+
+sed -i "s/^#[multilib]$/[multilib]/" /etc/pacman.conf
+sed -i "s/^#Include = /etc/pacman.d/mirrorlist$/Include = /etc/pacman.d/mirrorlist/" /etc/pacman.conf
+
+#Multilib
+#echo "[multilib]" >> /etc/pacman.conf
+#echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.co
 
 #Blackarch mirror Installation
 curl -O https://blackarch.org/strap.sh
@@ -95,10 +132,6 @@ pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
 echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 echo " " >> /etc/pacman.conf
-
-#Multilib
-echo "[multilib]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
 
 pacman -Syyu --noconfirm
 
@@ -116,9 +149,14 @@ systemctl enable connman.service
 rm /bin/sh
 ln -s dash /bin/sh
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+clear
+echo -e "\e[32m###################\e[0m"
+echo -e "\e[32m# SETTING UP USER #\e[0m"
+echo -e "\e[32m###################\e[0m"
+echo " "
 read -p "Enter Username: " username
 useradd -m -G wheel -s /bin/zsh $username
-echo "Set Passwd for user"
+echo -e "\e[32m# USER PASSWD #\e[0m"
 passwd $username
 cd /home/$username/
 echo "PROMPT='%2~ »%b '" >> .zshrc
@@ -134,8 +172,10 @@ exit
 #part3
 printf '\033c'
 cd $HOME
-echo "Done Bro√"
-
-
+clear
+echo -e "\e[32m#########################\e[0m"
+echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
+echo -e "\e[32m#########################\e[0m"
+echo " "
 
 exit
