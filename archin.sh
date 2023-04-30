@@ -5,6 +5,8 @@ sed -i "s/^#ParallelDownloads = 5$/ParallelDownloads = 15/" /etc/pacman.conf
 pacman --noconfirm -Sy archlinux-keyring
 loadkeys us
 timedatectl set-ntp true
+
+#Partitioning Disk
 echo " "
 echo -e "\e[32m# SELECT DISK FOR PARTITONING #\e[0m"
 echo " "
@@ -21,12 +23,14 @@ read -p "Partitioning Completed? [y/n] " ask
 if [[ $ask = n ]] ; then
   cfdisk /dev/$disk
 fi
+
+#Mounting Partions
 echo " "
 echo -e "\e[32m# MOUNT LINUX PARTITION #\e[0m"
 echo " "
 lsblk 
 echo " "
-read -p "Enter Boot partition: /dev/" partition
+read -p "Enter Root partition: /dev/" partition
 mkfs.ext4 /dev/$partition 
 echo " "
 echo -e "\e[32m# MOUNT BOOT PARTITION #\e[0m"
@@ -41,6 +45,8 @@ if [[ $answer = y ]] ; then
 fi
 mount /dev/$partition /mnt
 clear
+
+#Installing ArchLinux
 echo -e "\e[32m#######################\e[0m"
 echo -e "\e[32m# INSTALLING PACKAGES #\e[0m"
 echo -e "\e[32m#######################\e[0m"
@@ -69,6 +75,8 @@ exit
 printf '\033c'
 pacman -S --noconfirm sed git
 clear
+
+#Setting Up System
 echo -e "\e[32m#####################\e[0m"
 echo -e "\e[32m# SETTING UP SYSTEM #\e[0m"
 echo -e "\e[32m#####################\e[0m"
@@ -91,10 +99,12 @@ mkinitcpio -P
 echo " "
 echo -e "\e[32m# SUDO PASSWD #\e[0m"
 passwd
+
+#Installing GRUB
 echo " "
 pacman --noconfirm -S grub efibootmgr os-prober
 echo " "
-echo -e "\e[32m# Mounting BOOT for GRUB Instalation #\e[0m"
+echo -e "\e[32m# Mounting Partition for GRUB Instalation #\e[0m"
 echo " "
 lsblk 
 echo " "
@@ -148,6 +158,7 @@ echo " " >> /etc/pacman.conf
 
 pacman -Syyu --noconfirm
 
+#Installing Packages
 pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
      sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer \
@@ -158,6 +169,7 @@ pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      xcompmgr libnotify dunst slock jq aria2 dhcpcd connman \
      wpa_supplicant zsh-syntax-highlighting yay \
 
+#Enabling Services And Adding User
 systemctl enable connman.service 
 rm /bin/sh
 ln -s dash /bin/sh
@@ -170,11 +182,7 @@ useradd -m -G wheel -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
 passwd $username
-cd /home/$username/
-echo "PROMPT='%2~ »%b '" >> .zshrc
-chown $username:$username .zshrc
-cd /
-
+d /
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
 chown $username:$username $ai3_path
@@ -185,6 +193,13 @@ exit
 #part3
 printf '\033c'
 cd $HOME
+
+#Setting Up Dots
+echo "PROMPT='%2~ »%b '" >> .zshrc
+chown $username:$username .zshrc
+
+
+
 clear
 echo -e "\e[32m#########################\e[0m"
 echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
