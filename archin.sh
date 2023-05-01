@@ -161,13 +161,12 @@ pacman -Syyu --noconfirm
 #Installing Packages
 pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
-     sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer \
-     fzf man-db unclutter xclip maim libconfig xdg-user-dirs \
-     zip unzip unrar p7zip xdotool papirus-icon-theme mpd base-devel \
-     dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse \
-     emacs-nox arc-gtk-theme rsync firefox dash ncmpcpp cowsay \
-     xcompmgr libnotify dunst slock jq aria2 dhcpcd connman \
-     wpa_supplicant zsh-syntax-highlighting yay \
+     sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer waybar \
+     fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
+     zip unzip unrar p7zip xdotool papirus-icon-theme mpd swww yay \
+     dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel \
+     emacs-nox firefox dash ncmpcpp cowsay vim wpa_supplicant btop \
+     slurp polkit-gnome gvfs lxappearance \
 
 #Enabling Services And Adding User
 systemctl enable connman.service 
@@ -182,7 +181,6 @@ useradd -m -G wheel -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
 passwd $username
-d /
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
 chown $username:$username $ai3_path
@@ -198,6 +196,10 @@ cd $HOME
 echo "PROMPT='%2~ »%b '" >> .zshrc
 chown $username:$username .zshrc
 
+#yay Installation
+yay -S --noconfirm hyprland-bin sddm-sugar-candy
+
+#Gnome Installation
 
 
 clear
