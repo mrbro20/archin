@@ -196,10 +196,22 @@ cd $HOME
 echo "PROMPT='%2~ »%b '" >> .zshrc
 chown $username:$username .zshrc
 
-#yay Installation
-yay -S --noconfirm hyprland-bin sddm-sugar-candy
-
-#Gnome Installation
+#Installation
+read -p "Install 1-Gnome or 2-Hyprland or 3-Both? [1/2/3] " winmgr
+  if [[ winmgr = 1 ]] then
+    echo " "
+    echo -e "\e[32m# Installing Gnome #\e[0"
+    pacman -S gnome
+  elif [[ winmgr = 2 ]] then
+     echo " "
+    echo -e "\e[32m# Installing Hyprland #\e[0"
+    yay -S --noconfirm hyprland-bin sddm-sugar-candy
+  elif [[ winmgr = 3 ]] then
+     echo " "
+    echo -e "\e[32m# Installing Gnome & Hyprland #\e[0"
+    pacman -S gnome
+    yay -S --noconfirm hyprland-bin sddm-sugar-candy
+  fi
 
 
 clear
