@@ -166,7 +166,7 @@ pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
      sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer waybar \
      fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
-     zip unzip unrar p7zip xdotool papirus-icon-theme mpd yay \
+     zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay \
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel \
      emacs-nox firefox dash ncmpcpp cowsay vim wpa_supplicant btop \
      slurp polkit-gnome gvfs lxappearance networkmanger network-manager-applet \
@@ -201,6 +201,7 @@ printf '\033c'
 cd $HOME
 
 #Setting Up Dots
+echo "neofetch" >> .zshrc
 echo "PROMPT='%2~ »%b '" >> .zshrc
 chown $username:$username .zshrc
 
