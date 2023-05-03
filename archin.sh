@@ -43,7 +43,7 @@ if [[ $answer = y ]] ; then
   read -p "EFI partition: /dev/" efipartition
   mkfs.vfat -F 32 /dev/$efipartition
 fi
-mount /dev/$partition /mnt
+#mount /dev/$partition /mnt
 clear
 
 #Installing ArchLinux
@@ -117,10 +117,10 @@ echo " "
 read -p "Install GRUB 1-UEFI or 2-Lagacy? [1/2] " instagrub
 if [[ $instagrub = 1 ]] ; then
   echo " "
-  echo -e "\e[32mInstalling Grub For UEFI Bios\e[0m"
+  echo -e "\e[32m# Installing Grub For UEFI Bios #\e[0m"
   grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=$hostname --recheck
 elif [[ $instagrub = 2 ]] ; then
-  echo "\e[32mInstalling Grub For Lagacy Bios\e[0m"
+  echo "\e[32m# Installing Grub For Lagacy Bios #\e[0m"
   grub-install /dev/$efipartition
 fi
 sudo sed -i "s/^#GRUB_DISABLE_OS_PROBER=false$/GRUB_DISABLE_OS_PROBER=false/" /etc/default/grub
@@ -156,10 +156,8 @@ echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 echo " " >> /etc/pacman.conf
 
-pacman -Syyu --noconfirm
-
 #Installing Packages
-pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
+pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
      sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer waybar \
      fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
@@ -196,23 +194,9 @@ cd $HOME
 echo "PROMPT='%2~ »%b '" >> .zshrc
 chown $username:$username .zshrc
 
-#Installation
-read -p "Install 1-Gnome or 2-Hyprland or 3-Both? [1/2/3] " winmgr
-  if [[ winmgr = 1 ]] then
-    echo " "
-    echo -e "\e[32m# Installing Gnome #\e[0"
-    pacman -S gnome
-  elif [[ winmgr = 2 ]] then
-     echo " "
-    echo -e "\e[32m# Installing Hyprland #\e[0"
-    yay -S --noconfirm hyprland-bin sddm-sugar-candy
-  elif [[ winmgr = 3 ]] then
-     echo " "
-    echo -e "\e[32m# Installing Gnome & Hyprland #\e[0"
-    pacman -S gnome
-    yay -S --noconfirm hyprland-bin sddm-sugar-candy
-  fi
+pacman -S gnome
 
+yay -S --noconfirm hyprland-bin sddm-sugar-candy
 
 clear
 echo -e "\e[32m#########################\e[0m"
