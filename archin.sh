@@ -40,7 +40,7 @@ mount /dev/$partition /mnt
 echo " "
 echo -e "\e[32m# MOUNT BOOT PARTITION #\e[0m"
 echo " "
-read -p "Use efi partition? [y/n]" answer
+read -p "Use efi partition? [y/n] " answer
 if [[ $answer = y ]] ; then
   echo " "
   lsblk 
@@ -58,7 +58,7 @@ echo -e "\e[32m#######################\e[0m"
 echo -e "\e[32m# INSTALLING PACKAGES #\e[0m"
 echo -e "\e[32m#######################\e[0m"
 echo " "
-read -p "Do you have cache partition? [y/n]" answer
+read -p "Do you have cache partition? [y/n] " answer
 if [[ $answer = y ]] ; then
   echo " "
   lsblk 
@@ -161,8 +161,6 @@ echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 echo " " >> /etc/pacman.conf
 
-
-
 #Installing Packages
 pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
@@ -172,14 +170,24 @@ pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel \
      emacs-nox firefox dash ncmpcpp cowsay vim wpa_supplicant btop \
      slurp polkit-gnome gvfs lxappearance networkmanager network-manager-applet \
+     gnome-terminal gdm eog evince gnome-control-center gnome-disk-utility nautilus \
 
 #Enabling Services And Adding User
-read -p "1-Connman 2-nmctl? [1/2] " netmgr
+read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
 if [[ $netmgr = 1 ]] ; then
   systemctl enable connman.service
 elif [[ $netmgr = 2 ]] ; then
   systemctl enable NetworkManger.service
 fi
+echo " "
+
+read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
+if [[ $wmgr = 1 ]] ; then
+  systemctl enable sddm.service
+elif [[ $wmgr = 2 ]] ; then
+  systemctl enable gdm.service
+fi
+
 rm /bin/sh
 ln -s dash /bin/sh
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
@@ -190,6 +198,7 @@ read -p "Enter Username: " username
 useradd -m -G wheel -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
+echo " "
 passwd $username
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
@@ -200,6 +209,7 @@ exit
 
 #part3
 printf '\033c'
+sudo rm -rf /arch_install2.sh
 cd $HOME
 
 #Setting Up Dots
@@ -207,24 +217,9 @@ echo "neofetch" >> .zshrc
 echo "PROMPT='%2~ »%b '" >> .zshrc
 chown $username:$username .zshrc
 
-#Installation
-read -p "Install 1-Gnome or 2-Hyprland or 3-Both? [1/2/3] " winmgr
-if [[ winmgr = 1 ]] ; then
-  echo " "
-  echo -e "\e[32m# Installing Gnome #\e[0"
-  sudo pacman -S gnome-terminal gdm eog evince gnome-control-center gnome-disk-utility nautilus
-elif [[ winmgr = 2 ]] ; then
-  echo " "
-  echo -e "\e[32m# Installing Hyprland #\e[0"
-  yay -S --noconfirm hyprland swww sddm-sugar-candy
-elif [[ winmgr = 3 ]] ; then
-  echo " "
-  echo -e "\e[32m# Installing Gnome & Hyprland #\e[0"
-  sudo pacman -S gnome-terminal gdm eog evince gnome-control-center gnome-disk-utility nautilus
-  yay -S --noconfirm hyprland swww sddm-sugar-candy
-fi
+yay -S --noconfirm hyprland sddm-sugar-candy code
 
-clear
+echo " "
 echo -e "\e[32m#########################\e[0m"
 echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
 echo -e "\e[32m#########################\e[0m"
