@@ -33,7 +33,7 @@ echo " "
 read -p "Linux partition: /dev/" partition
 echo " "
 read -p "Erase partition? [y/n] " ext4par
-if [[ ext4par = y ]] ; then
+if [[ $ext4par = y ]] ; then
   mkfs.ext4 /dev/$partition
 fi
 mount /dev/$partition /mnt
@@ -53,6 +53,7 @@ if [[ $answer = y ]] ; then
 fi
 
 #Installing ArchLinux
+echo " "
 echo -e "\e[32m#######################\e[0m"
 echo -e "\e[32m# INSTALLING PACKAGES #\e[0m"
 echo -e "\e[32m#######################\e[0m"
@@ -82,6 +83,7 @@ printf '\033c'
 pacman -S --noconfirm sed git
 
 #Setting Up System
+echo " "
 echo -e "\e[32m#####################\e[0m"
 echo -e "\e[32m# SETTING UP SYSTEM #\e[0m"
 echo -e "\e[32m#####################\e[0m"
@@ -159,17 +161,17 @@ echo "[chaotic-aur]" >> /etc/pacman.conf
 echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 echo " " >> /etc/pacman.conf
 
-pacman -Suy --noconfirm
+
 
 #Installing Packages
-pacman -S --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
+pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
      sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer waybar \
      fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
      zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay \
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel \
      emacs-nox firefox dash ncmpcpp cowsay vim wpa_supplicant btop \
-     slurp polkit-gnome gvfs lxappearance networkmanger network-manager-applet \
+     slurp polkit-gnome gvfs lxappearance networkmanager network-manager-applet \
 
 #Enabling Services And Adding User
 read -p "1-Connman 2-nmctl? [1/2] " netmgr
