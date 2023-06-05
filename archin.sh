@@ -168,7 +168,7 @@ pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
      zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay \
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel \
-     emacs-nox firefox dash ncmpcpp cowsay vim wpa_supplicant btop \
+     emacs-nox firefox dash ncmpcpp cowsay vim wpa_supplicant btop gnome-browser-connector \
      slurp polkit-gnome gvfs lxappearance networkmanager network-manager-applet \
      gnome-terminal gdm eog evince gnome-control-center gnome-disk-utility nautilus \
 
