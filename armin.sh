@@ -159,15 +159,8 @@ pacman -Sy --noconfirm rsync sxiv mpv ffmpeg imagemagick bluez bluez-utils vim b
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel ncmpcpp cowsay \
      wpa_supplicant networkmanager network-manager-applet \
 
-#Enabling Services And Adding User
-read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
-if [[ $netmgr = 1 ]] ; then
-  systemctl enable connman.service
-elif [[ $netmgr = 2 ]] ; then
-  systemctl enable NetworkManger.service
-fi
-echo " "
-
+# Setting up Users
+echo -e "\e[32m# SETUP USER #\e[0m"
 rm /bin/sh
 ln -s dash /bin/sh
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
@@ -175,7 +168,7 @@ echo " "
 echo -e "\e[32m# SETTING UP USER #\e[0m"
 echo " "
 read -p "Enter Username: " username
-useradd -m -G wheel -s /bin/zsh $username
+useradd -m -G wheel docker -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
 echo " "
@@ -190,6 +183,23 @@ exit
 #part3
 printf '\033c'
 sudo -S rm -rf /arch_install2.sh
+echo " "
+
+#Enabling Services
+echo -e "\e[32m# Enabling Services #\e[0m"
+read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
+if [[ $netmgr = 1 ]] ; then
+  systemctl enable connman.service
+elif [[ $netmgr = 2 ]] ; then
+  systemctl enable NetworkManger.service
+fi
+
+read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
+if [[ $wmgr = 1 ]] ; then
+  systemctl enable sddm.service
+elif [[ $wmgr = 2 ]] ; then
+  systemctl enable gdm.service
+fi
 cd $HOME
 
 #Setting Up Dots
