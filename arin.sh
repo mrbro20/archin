@@ -169,7 +169,7 @@ pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-
      git sxhkd zsh pipewire pipewire-pulse base-devel emacs-nox firefox dash ncmpcpp cowsay \
      vim wpa_supplicant btop gnome-browser-connector slurp polkit-gnome gvfs lxappearance \
      networkmanager network-manager-applet gnome-terminal gdm eog evince gnome-control-center \
-     gnome-disk-utility nautilus \
+     gnome-disk-utility nautilus pass \
 
 #Enabling Services And Adding User
 read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
@@ -213,8 +213,20 @@ sudo rm -rf /arch_install2.sh
 cd $HOME
 
 #Setting Up Dots
+echo "autoload -Uz vcs_info" >> .zshrc
+echo "precmd() { vcs_info }" >> .zshrc
+echo " " >> .zshrc
+echo "zstyle ':vcs_info:git:*' formats '%b '" >> .zshrc
+echo " " >> .zshrc
+echo "setopt PROMPT_SUBST" >> .zshrc
 echo "neofetch" >> .zshrc
-echo "PROMPT='%2~ »%b '" >> .zshrc
+echo "PROMPT='%F{green}%~%f {red}${vcs_info_msg_0_}%f» '" >> .zshrc
+echo " " >> .zshrc
+echo "HISTFILE=~/.histfile" >> .zshrc
+echo "HISTSIZE=1000" >> .zshrc
+echo "SAVEHIST=1000" >> .zshrc
+echo "setopt appendhistory" >> .zshrc
+echo "alias bp='nano ~/.zshrc'" >> .zshrc
 chown $username:$username .zshrc
 
 yay -S --noconfirm hyprland sddm-sugar-candy 

@@ -202,8 +202,20 @@ sudo rm -rf /arch_install2.sh
 cd $HOME
 
 #Setting Up Dots
+echo "autoload -Uz vcs_info" >> .zshrc
+echo "precmd() { vcs_info }" >> .zshrc
+echo " " >> .zshrc
+echo "zstyle ':vcs_info:git:*' formats '%b '" >> .zshrc
+echo " " >> .zshrc
+echo "setopt PROMPT_SUBST" >> .zshrc
 echo "neofetch" >> .zshrc
-echo "PROMPT='%2~ »%b '" >> .zshrc
+echo "PROMPT='%F{green}%~%f {red}${vcs_info_msg_0_}%f» '" >> .zshrc
+echo " " >> .zshrc
+echo "HISTFILE=~/.histfile" >> .zshrc
+echo "HISTSIZE=1000" >> .zshrc
+echo "SAVEHIST=1000" >> .zshrc
+echo "setopt appendhistory" >> .zshrc
+echo "alias bp='nano ~/.zshrc'" >> .zshrc
 chown $username:$username .zshrc
 
 yay -S --noconfirm hyprland sddm-sugar-candy 
