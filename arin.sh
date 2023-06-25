@@ -228,4 +228,6 @@ echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
 echo -e "\e[32m#########################\e[0m"
 echo " "
 
+sudo rm -rf ~/arch_install3.sh
+
 exit
