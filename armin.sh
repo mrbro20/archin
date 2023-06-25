@@ -162,14 +162,10 @@ echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 echo " " >> /etc/pacman.conf
 
 #Installing Packages
-pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono \
-     ttf-joypixels ttf-font-awesome rsync docker sxiv mpv ffmpeg imagemagick bluez \
-     bluez-utils pamixer code fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
-     zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay dosfstools ntfs-3g \
-     git sxhkd zsh pipewire pipewire-pulse base-devel emacs-nox firefox dash ncmpcpp cowsay \
-     vim wpa_supplicant btop gnome-browser-connector slurp polkit-gnome gvfs lxappearance \
-     networkmanager network-manager-applet gnome-terminal gdm eog evince gnome-control-center \
-     gnome-disk-utility nautilus \
+pacman -Sy --noconfirm rsync sxiv mpv ffmpeg imagemagick bluez bluez-utils vim btop \
+     fzf man-db connman nano zip unzip unrar p7zip xdotool mpd neofetch yay dash docker\
+     dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel ncmpcpp cowsay \
+     wpa_supplicant networkmanager network-manager-applet \
 
 #Enabling Services And Adding User
 read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
@@ -179,13 +175,6 @@ elif [[ $netmgr = 2 ]] ; then
   systemctl enable NetworkManger.service
 fi
 echo " "
-
-read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
-if [[ $wmgr = 1 ]] ; then
-  systemctl enable sddm.service
-elif [[ $wmgr = 2 ]] ; then
-  systemctl enable gdm.service
-fi
 
 rm /bin/sh
 ln -s dash /bin/sh
