@@ -203,13 +203,8 @@ fi
 cd $HOME
 
 #Setting Up Dots
-echo "autoload -Uz vcs_info" >> .zshrc
-echo "precmd() { vcs_info }" >> .zshrc
-echo "zstyle ':vcs_info:git:*' formats '%b '" >> .zshrc
-echo " " >> .zshrc
-echo "setopt PROMPT_SUBST" >> .zshrc
 echo "neofetch" >> .zshrc
-echo "PROMPT='%F{green}%~»%f %F{red}${vcs_info_msg_0_}%f '" >> .zshrc
+echo "PROMPT='%F{green}%~»%f '" >> .zshrc
 echo " " >> .zshrc
 echo "HISTFILE=~/.zist" >> .zshrc
 echo "HISTSIZE=1000" >> .zshrc
@@ -224,6 +219,6 @@ echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
 echo -e "\e[32m#########################\e[0m"
 echo " "
 
-sudo rm -rf ~/arch_install3.sh
+sudo rm -rf arch_install3.sh .bashrc .bash_profile .bash_logout
 
 exit
