@@ -153,14 +153,6 @@ chmod +x strap.sh
 ./strap.sh
 rm -rf strap.sh
 
-#Chaotic-Aur
-pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key FBA220DFC880C036
-pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-echo "[chaotic-aur]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-echo " " >> /etc/pacman.conf
-
 #Installing Packages
 pacman -Sy --noconfirm rsync sxiv mpv ffmpeg imagemagick bluez bluez-utils vim btop \
      fzf man-db connman nano zip unzip unrar p7zip xdotool mpd neofetch yay dash docker\
@@ -217,8 +209,6 @@ echo "SAVEHIST=1000" >> .zshrc
 echo "setopt appendhistory" >> .zshrc
 echo "alias bp='nano ~/.zshrc'" >> .zshrc
 chown $username:$username .zshrc
-
-yay -S --noconfirm hyprland sddm-sugar-candy 
 
 echo " "
 echo -e "\e[32m#########################\e[0m"
