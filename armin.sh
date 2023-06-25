@@ -189,7 +189,6 @@ exit
 
 #part3
 printf '\033c'
-sudo -S pacman -Suy
 sudo -S rm -rf /arch_install2.sh
 cd $HOME
 
