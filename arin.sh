@@ -153,14 +153,6 @@ chmod +x strap.sh
 ./strap.sh
 rm -rf strap.sh
 
-#Chaotic-Aur
-pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key FBA220DFC880C036
-pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-echo "[chaotic-aur]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-echo " " >> /etc/pacman.conf
-
 #Installing Packages
 pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono \
      ttf-joypixels ttf-font-awesome rsync docker sxiv mpv ffmpeg imagemagick bluez \
