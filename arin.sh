@@ -12,7 +12,7 @@ echo -e "\e[32m# SELECT DISK FOR PARTITONING #\e[0m"
 echo " "
 lsblk 
 echo " "
-read -p "Enter disk for Partitioning: /dev/" disk
+read -p "Enter disk for cfdisk Partitioning: /dev/" disk
 cfdisk /dev/$disk
 echo " "
 echo -e "\e[31m# \e[33mCHECK PARTITIONS CAREFULLY #\e[31m#\e[0m"
@@ -164,7 +164,7 @@ echo " " >> /etc/pacman.conf
 #Installing Packages
 pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk \
      ttf-jetbrains-mono ttf-joypixels ttf-font-awesome rsync \
-     sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer waybar \
+     sxiv mpv ffmpeg imagemagick bluez bluez-utils pamixer code \
      fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
      zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay \
      dosfstools ntfs-3g git sxhkd zsh pipewire pipewire-pulse base-devel \
@@ -209,6 +209,7 @@ exit
 
 #part3
 printf '\033c'
+sudo pacman -Suy
 sudo rm -rf /arch_install2.sh
 cd $HOME
 
@@ -217,7 +218,7 @@ echo "neofetch" >> .zshrc
 echo "PROMPT='%2~ »%b '" >> .zshrc
 chown $username:$username .zshrc
 
-yay -S --noconfirm hyprland sddm-sugar-candy code
+yay -S --noconfirm hyprland sddm-sugar-candy 
 
 echo " "
 echo -e "\e[32m#########################\e[0m"
