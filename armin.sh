@@ -168,7 +168,7 @@ echo " "
 echo -e "\e[32m# SETTING UP USER #\e[0m"
 echo " "
 read -p "Enter Username: " username
-useradd -m -G wheel docker -s /bin/zsh $username
+useradd -m -G wheel,docker -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
 echo " "

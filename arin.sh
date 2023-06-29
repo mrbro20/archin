@@ -172,11 +172,28 @@ echo " "
 echo -e "\e[32m# SETTING UP USER #\e[0m"
 echo " "
 read -p "Enter Username: " username
-useradd -m -G wheel docker -s /bin/zsh $username
+useradd -m -G wheel,docker -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
 echo " "
 passwd $username
+
+#Enabling Services
+echo -e "\e[32m# Enabling Services #\e[0m"
+read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
+if [[ $netmgr = 1 ]] ; then
+  systemctl enable connman.service
+elif [[ $netmgr = 2 ]] ; then
+  systemctl enable NetworkManger.service
+fi
+
+read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
+if [[ $wmgr = 1 ]] ; then
+  systemctl enable sddm.service
+elif [[ $wmgr = 2 ]] ; then
+  systemctl enable gdm.service
+fi
+
 ai3_path=/home/$username/arch_install3.sh
 sed '1,/^#part3$/d' arch_install2.sh > $ai3_path
 chown $username:$username $ai3_path
@@ -188,22 +205,6 @@ exit
 printf '\033c'
 sudo -S rm -rf /arch_install2.sh
 echo " "
-
-#Enabling Services
-echo -e "\e[32m# Enabling Services #\e[0m"
-read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
-if [[ $netmgr = 1 ]] ; then
-  sudo systemctl enable connman.service
-elif [[ $netmgr = 2 ]] ; then
-  sudo systemctl enable NetworkManger.service
-fi
-
-read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
-if [[ $wmgr = 1 ]] ; then
-  sudo systemctl enable sddm.service
-elif [[ $wmgr = 2 ]] ; then
-  sudo systemctl enable gdm.service
-fi
 cd $HOME
 
 #Setting Up Dots
@@ -211,7 +212,7 @@ git clone --depth=1 https://github.com/mrbro20/archin
 mv archin/dots/.zshrc .
 chown $username:$username .zshrc
 mv archin/dots/pics/* Pictures/. 
-dconf load /org/gnome/ < archin/dots/gnome-bkp
+sudo dconf load /org/gnome/ < archin/dots/gnome-bkp
 
 echo " "
 echo -e "\e[32m#########################\e[0m"
