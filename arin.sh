@@ -184,7 +184,7 @@ read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
 if [[ $netmgr = 1 ]] ; then
   systemctl enable connman
 elif [[ $netmgr = 2 ]] ; then
-  systemctl enable NetworkManger
+  systemctl enable NetworkManager
 fi
 
 read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
