@@ -207,15 +207,11 @@ fi
 cd $HOME
 
 #Setting Up Dots
-echo "neofetch" >> .zshrc
-echo "PROMPT='%F{green}%~»%f '" >> .zshrc
-echo " " >> .zshrc
-echo "HISTFILE=~/.zist" >> .zshrc
-echo "HISTSIZE=1000" >> .zshrc
-echo "SAVEHIST=1000" >> .zshrc
-echo "setopt appendhistory" >> .zshrc
-echo "alias bp='nano ~/.zshrc'" >> .zshrc
+git clone --depth=1 https://github.dev/mrbro20/archin/dots
+mv dots/.zshrc .
 chown $username:$username .zshrc
+mv dots/pics/* Pictures/. 
+dconf load /org/gnome/ < dots/gnome-bkp
 
 echo " "
 echo -e "\e[32m#########################\e[0m"
@@ -223,6 +219,6 @@ echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
 echo -e "\e[32m#########################\e[0m"
 echo " "
 
-sudo rm -rf arch_install3.sh .bashrc .bash_profile .bash_logout
+sudo rm -rf arch_install3.sh .bashrc .bash_profile .bash_logout dots
 
 exit
