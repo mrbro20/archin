@@ -161,7 +161,7 @@ pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-
      git sxhkd zsh pipewire pipewire-pulse base-devel emacs-nox firefox dash ncmpcpp cowsay \
      vim wpa_supplicant btop gnome-browser-connector slurp polkit-gnome gvfs lxappearance \
      networkmanager network-manager-applet gnome-terminal gdm eog evince gnome-control-center \
-     gnome-disk-utility nautilus pass \
+     gnome-disk-utility nautilus pass libreoffice gnome-boxes \
 
 # Setting up Users
 echo -e "\e[32m# SETUP USER #\e[0m"
@@ -182,16 +182,16 @@ passwd $username
 echo -e "\e[32m# Enabling Services #\e[0m"
 read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
 if [[ $netmgr = 1 ]] ; then
-  systemctl enable connman.service
+  systemctl enable connman
 elif [[ $netmgr = 2 ]] ; then
-  systemctl enable NetworkManger.service
+  systemctl enable NetworkManger
 fi
 
 read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
 if [[ $wmgr = 1 ]] ; then
-  systemctl enable sddm.service
+  systemctl enable sddm
 elif [[ $wmgr = 2 ]] ; then
-  systemctl enable gdm.service
+  systemctl enable gdm
 fi
 
 ai3_path=/home/$username/arch_install3.sh
@@ -211,8 +211,8 @@ cd $HOME
 git clone --depth=1 https://github.com/mrbro20/archin
 mv archin/dots/.zshrc .
 sudo -S chown $username:$username .zshrc
-mv archin/dots/pics/* Pictures/. 
-sudo -S dconf load /org/gnome/ < archin/dots/gnome-bkp
+mv archin/dots/Pictures . 
+mv archin/dots/gnome-bkp .
 
 echo " "
 echo -e "\e[32m#########################\e[0m"
