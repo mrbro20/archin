@@ -210,9 +210,9 @@ cd $HOME
 #Setting Up Dots
 git clone --depth=1 https://github.com/mrbro20/archin
 mv archin/dots/.zshrc .
-chown $username:$username .zshrc
+sudo -S chown $username:$username .zshrc
 mv archin/dots/pics/* Pictures/. 
-sudo dconf load /org/gnome/ < archin/dots/gnome-bkp
+sudo -S dconf load /org/gnome/ < archin/dots/gnome-bkp
 
 echo " "
 echo -e "\e[32m#########################\e[0m"
