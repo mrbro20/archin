@@ -193,16 +193,16 @@ echo " "
 echo -e "\e[32m# Enabling Services #\e[0m"
 read -p "Sys setup 1-Connman 2-nmctl? [1/2] " netmgr
 if [[ $netmgr = 1 ]] ; then
-  systemctl enable connman.service
+  sudo systemctl enable connman.service
 elif [[ $netmgr = 2 ]] ; then
-  systemctl enable NetworkManger.service
+  sudo systemctl enable NetworkManger.service
 fi
 
 read -p "Sys setup 1-sddm 2-gdm? [1/2] " wmgr
 if [[ $wmgr = 1 ]] ; then
-  systemctl enable sddm.service
+  sudo systemctl enable sddm.service
 elif [[ $wmgr = 2 ]] ; then
-  systemctl enable gdm.service
+  sudo systemctl enable gdm.service
 fi
 cd $HOME
 
@@ -219,6 +219,6 @@ echo -e "\e[32m# INSTALATION COMPLETED #\e[0m"
 echo -e "\e[32m#########################\e[0m"
 echo " "
 
-sudo rm -rf arch_install3.sh .bashrc .bash_profile .bash_logout dots
+sudo rm -rf arch_install3.sh .bashrc .bash_profile .bash_logout archin
 
 exit
