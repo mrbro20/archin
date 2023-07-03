@@ -178,7 +178,7 @@ if [[ $rsyncpkg = y ]] ; then
      qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netca \
 fi
 echo " "
-read -p "Resync packages [y/n] " rsyncpkg
+read -p "Resync packages (use n to break installation) [y/n] " rsyncpkg
 if [[ $rsyncpkg = y ]] ; then
   pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono \
      ttf-joypixels ttf-font-awesome rsync docker sxiv mpv ffmpeg imagemagick bluez \
