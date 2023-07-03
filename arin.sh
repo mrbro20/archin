@@ -161,7 +161,39 @@ pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-
      git sxhkd zsh pipewire pipewire-pulse base-devel emacs-nox firefox dash ncmpcpp cowsay \
      vim wpa_supplicant btop gnome-browser-connector slurp polkit-gnome gvfs lxappearance \
      networkmanager network-manager-applet gnome-terminal gdm eog evince gnome-control-center \
-     gnome-disk-utility nautilus pass libreoffice gnome-boxes \
+     gnome-disk-utility nautilus pass libreoffice gnome-boxes gnome-tweaks\
+     qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netca \
+
+echo " "
+read -p "Resync packages [y/n] " rsyncpkg
+if [[ $rsyncpkg = y ]] ; then
+  pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono \
+     ttf-joypixels ttf-font-awesome rsync docker sxiv mpv ffmpeg imagemagick bluez \
+     bluez-utils pamixer code fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
+     zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay dosfstools ntfs-3g \
+     git sxhkd zsh pipewire pipewire-pulse base-devel emacs-nox firefox dash ncmpcpp cowsay \
+     vim wpa_supplicant btop gnome-browser-connector slurp polkit-gnome gvfs lxappearance \
+     networkmanager network-manager-applet gnome-terminal gdm eog evince gnome-control-center \
+     gnome-disk-utility nautilus pass libreoffice gnome-boxes gnome-tweaks\
+     qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netca \
+fi
+echo " "
+read -p "Resync packages [y/n] " rsyncpkg
+if [[ $rsyncpkg = y ]] ; then
+  pacman -Sy --noconfirm noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono \
+     ttf-joypixels ttf-font-awesome rsync docker sxiv mpv ffmpeg imagemagick bluez \
+     bluez-utils pamixer code fzf man-db libconfig xdg-user-dirs sddm dunst connman nano \
+     zip unzip unrar p7zip xdotool papirus-icon-theme mpd neofetch yay dosfstools ntfs-3g \
+     git sxhkd zsh pipewire pipewire-pulse base-devel emacs-nox firefox dash ncmpcpp cowsay \
+     vim wpa_supplicant btop gnome-browser-connector slurp polkit-gnome gvfs lxappearance \
+     networkmanager network-manager-applet gnome-terminal gdm eog evince gnome-control-center \
+     gnome-disk-utility nautilus pass libreoffice gnome-boxes gnome-tweaks\
+     qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netca \
+
+elif [[ $rsyncpkg = n ]] ; then
+  echo -e "\e[32m# pkg installing error check the Internet and retry #\e[0m"
+  exit
+fi
 
 # Setting up Users
 echo -e "\e[32m# SETUP USER #\e[0m"
@@ -172,7 +204,7 @@ echo " "
 echo -e "\e[32m# SETTING UP USER #\e[0m"
 echo " "
 read -p "Enter Username: " username
-useradd -m -G wheel,docker -s /bin/zsh $username
+useradd -m -G wheel,docker,libvirt -s /bin/zsh $username
 echo " "
 echo -e "\e[32m# USER PASSWD #\e[0m"
 echo " "
